@@ -89,7 +89,7 @@
           }).then((res)=>{
             console.log(res);
             console.log(this);
-            this.$router.push("/");
+            this.$router.push("/routes");
           }).catch((error)=>{
             console.log(error);
           })
