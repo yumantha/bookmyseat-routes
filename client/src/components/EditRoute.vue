@@ -70,29 +70,30 @@
     },
     methods: {
       updateRoute(){
-//        if(this.routeNum==="" || this.routeStart==="" || this.routeEnd===""){
-//          alert("Please fill the required fields");
-//        } else{
-//          axios({
-//            method: "post",
-//            url: "http://localhost:3000/routes/new",
-//            data: {
-//              routeNum: this.routeNum,
-//              routeStart: this.routeStart,
-//              routeEnd: this.routeEnd,
-//              routeStops: this.routeStops
-//            },
-//            headers: {
-//              'Content-Type': 'application/json'
-//            }
-//          }).then((res)=>{
-//            console.log(res);
-//            console.log(this);
-//            this.$router.push("/");
-//          }).catch((error)=>{
-//            console.log(error);
-//          })
-//        }
+        if(this.routeNum==="" || this.routeStart==="" || this.routeEnd===""){
+          alert("Please fill the required fields");
+        } else{
+          axios({
+            method: "post",
+            url: "http://localhost:3000/routes/" + this.routeID + "/edit",
+            data: {
+              routeID: this.routeID,
+              routeNum: this.routeNum,
+              routeStart: this.routeStart,
+              routeEnd: this.routeEnd,
+              routeStops: this.routeStops
+            },
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          }).then((res)=>{
+            console.log(res);
+            console.log(this);
+            this.$router.push("/");
+          }).catch((error)=>{
+            console.log(error);
+          })
+        }
       },
       clear(){
         this.$refs.form.reset();

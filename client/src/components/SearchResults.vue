@@ -84,7 +84,7 @@
       },
       editRoute: (id)=>{
         axios({
-          method: "post",
+          method: "get",
           url: "http://localhost:3000/routes/" + id + "/edit",
           data: {
             routeID: id

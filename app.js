@@ -63,8 +63,7 @@ app.post("/routes/new", (req, res)=>{
                 } else{
                     var routeID = foundID[0].route_id;
                     for(var i=0; i<routeStops.length; i++){
-                        var sql3 = "INSERT INTO route_stop " +
-                            "VALUES(\"" + routeID + "\", \"" + routeStops[i] + "\", " + (i+1) + ");";
+                        var sql3 = "INSERT INTO route_stop VALUES(\"" + routeID + "\", \"" + routeStops[i] + "\", " + (i+1) + ");";
                         db.query(sql3, function(error, stop){
                             if(error){
                                 console.log(error);
@@ -173,8 +172,8 @@ app.post("/routes/:id/delete", (req, res)=>{
     })
 });
 
-//Edit a route
-app.post("/routes/:id/edit", (req, res)=>{
+//Edit a route - going to the edit page
+app.get("/routes/:id/edit", (req, res)=>{
     var routeID = req.params.id;
 
     var sql1 = "SELECT * FROM route WHERE route_id=" + routeID + ";";
@@ -220,6 +219,65 @@ app.post("/routes/:id/edit", (req, res)=>{
     });
 
 });
+
+//Edit a route - handling the edit logic
+app.post("/routes/:id/edit", (req, res)=>{
+    const routeID = req.params.id;
+    const routeNum = req.body.routeNum;
+    const routeStart = req.body.routeStart;
+    const routeEnd = req.body.routeEnd;
+    var routeStops = req.body.routeStops;
+
+    if(routeStops != null){
+        routeStops = routeStops.split(" ");
+    } else{
+        routeStops = [];
+    }
+
+    routeStops.unshift(routeStart);
+    routeStops.push(routeEnd);
+
+    while(routeStops.includes("")){
+        routeStops.splice(routeStops.indexOf(""), 1);
+        console.log(routeStops);
+    }
+
+    var sql1 = "UPDATE route SET route_num=\"" + routeNum + "\", start=\"" + routeStart + "\", end=\"" + routeEnd + "\" WHERE route_id=" + routeID + ";";
+    var sqlDel = "DELETE from route_stop WHERE route_id=" + routeID + ";";
+
+    db.query(sql1, (error, updatedRoute)=>{
+        if(error){
+            console.log(error);
+            return res.json({success: false, msg: "The route couldn't be updated"});
+        } else{
+            console.log("The route successfully updated");
+
+            db.query(sqlDel, (error, deletedStops)=>{
+                if(error){
+                    console.log(error);
+                    return res.json({success: false, msg: "The stops couldn't be deleted"});
+                } else{
+                    console.log("Stops deleted successfully");
+
+                    for(var i=0; i<routeStops.length; i++){
+                        var sql3 = "INSERT INTO route_stop VALUES(\"" + routeID + "\", \"" + routeStops[i] + "\", " + (i+1) + ");";
+                        db.query(sql3, function(error, stop){
+                            if(error){
+                                console.log(error);
+                                return res.json({success: false, msg: "Failed to add stop to the database"});
+                            } else{
+                                console.log("Added stop to the database");
+                            }
+                        });
+                    }
+                    return res.json({success: true, msg: "The route successfully updated"});
+                }
+            });
+        }
+    });
+
+});
+
 
 
 app.listen(3000, ()=>{
