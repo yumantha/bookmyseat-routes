@@ -1,31 +1,42 @@
 <template>
   <div id="search-routes">
-    <h3>{{title}}</h3>
 
-    <v-form v-model="valid" ref="form">
+    <v-container>
 
-      <v-text-field
-        label="Route Number"
-        v-model="routeNum"
-      ></v-text-field>
+      <h3 id="title">{{title}}</h3>
 
-      <v-text-field
-        label="City"
-        v-model="city"
-      ></v-text-field>
+      <v-card>
 
-      <v-btn
-        v-on:click="search"
-      >
-        search
-      </v-btn>
+        <v-form v-model="valid" ref="form" id="search-form">
 
-      <v-btn
-        v-on:click="clear"
-      >
-        clear
-      </v-btn>
-    </v-form>
+          <v-text-field
+            label="Route Number"
+            v-model="routeNum"
+          ></v-text-field>
+
+          <v-text-field
+            label="City"
+            v-model="city"
+          ></v-text-field>
+
+          <v-btn
+            v-on:click="search"
+          >
+            search
+            <v-icon>search</v-icon>
+          </v-btn>
+
+          <v-btn
+            v-on:click="clear"
+          >
+            clear
+          </v-btn>
+        </v-form>
+
+      </v-card>
+
+    </v-container>
+
   </div>
 </template>
 
@@ -76,5 +87,12 @@
 </script>
 
 <style scoped>
+  #title{
+    text-align: center;
+  }
+  #search-form{
+    margin: 20px;
+    padding: 20px;
+  }
 
 </style>
