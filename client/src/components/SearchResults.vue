@@ -5,7 +5,15 @@
 
       <h3 id="title">{{title}}</h3>
 
-      <p v-if="!available">No results</p>
+      <v-card v-if="!available">
+        <v-card-title>
+          <div>
+            <h5 id="no-results">Your search did not match any routes</h5>
+          </div>
+        </v-card-title>
+      </v-card>
+
+
 
       <v-card v-for="result in results">
         <v-card-title>
@@ -121,5 +129,8 @@
 <style scoped>
   #title{
     text-align: center;
+  }
+  #no-results{
+    color: gray;
   }
 </style>
