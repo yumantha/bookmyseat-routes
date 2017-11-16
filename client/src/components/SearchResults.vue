@@ -84,8 +84,9 @@
           }
         }).then((res)=>{
           console.log(res);
-          console.log(this);
-          this.$router.push("/routes/search");
+//          console.log(this);
+//          this.$router.push("/routes/search");
+          window.location.href = "/routes/";
         }).catch((error)=>{
           console.log(error)
         })
@@ -104,7 +105,8 @@
           console.log(res);
 //          console.log(this);
           localStorage.setItem("routeToEdit", JSON.stringify(res.data.msg));
-          this.$router.push("/routes/" + id + "/edit");
+//          this.$router.push("/routes/" + id + "/edit");
+          window.location.href = "/routes/" + id + "/edit";
         }).catch((error)=>{
           console.log(error)
         })
